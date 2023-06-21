@@ -31,108 +31,13 @@ char mundo::getrespuesta()
 void mundo::inicializa()
 {
 	
-	//for (int i = 0; i < 8; i++) //peones negros
-	//{
-	//	Vector vaux(1 + i, 2);
-	//	Pieza* aux = new peon(vaux, NEGRO);
-	//	listapiezas.agregar(aux);
-	//}
-
-	//for (int i = 0; i < 8; i++) //peones blancos
-	//{
-	//	Vector vaux(1 + i, 7);
-	//	Pieza* aux = new peon(vaux, BLANCO);
-	//	listapiezas.agregar(aux);
-	//}
-	//
-	//Vector pos(5,1);
-	//
-	//Pieza* aux1 = new rey(pos, NEGRO);
-	//listapiezas.agregar(aux1);
-
-	//pos.y = 8;
-	//Pieza* aux2 = new rey(pos, BLANCO);
-	//listapiezas.agregar(aux2);
-
-	//pos.y = 1;
-	//pos.x = 4;
-	//Pieza* aux3 = new reina(pos, NEGRO);
-	//listapiezas.agregar(aux3);
-
-	//pos.y = 8;
-	//Pieza* aux4 = new reina(pos, BLANCO);
-	//listapiezas.agregar(aux4);
-
-	//pos.y = 1;
-	//pos.x = 2;
-	//Pieza* aux5 = new caballo(pos, NEGRO);
-	//listapiezas.agregar(aux5);
-
-	//pos.x = 7;
-	//Pieza* aux16 = new caballo(pos, NEGRO);
-	//listapiezas.agregar(aux16);
-
-	//pos.y = 8;
-	//Pieza* aux6 = new caballo(pos, BLANCO);
-	//listapiezas.agregar(aux6);
-
-	//pos.x = 2;
-	//Pieza* aux7 = new caballo(pos, BLANCO);
-	//listapiezas.agregar(aux7);
-
-	//pos.x = 3;
-	//pos.y = 1;
-	//Pieza* aux8 = new alfil(pos, NEGRO);
-	//listapiezas.agregar(aux8);
-
-	//pos.x = 6;
-	//Pieza* aux9 = new alfil(pos, NEGRO);
-	//listapiezas.agregar(aux9);
-
-	//pos.y = 8;
-	//Pieza* aux10 = new alfil(pos, BLANCO);
-	//listapiezas.agregar(aux10);
-
-	//pos.x = 3;
-	//Pieza* aux11 = new alfil(pos, BLANCO);
-	//listapiezas.agregar(aux11);
-
-
-	//pos.x = 1;
-	//pos.y = 1;
-	//Pieza* aux12 = new torre(pos, NEGRO);
-	//listapiezas.agregar(aux12);
-
-	//pos.x = 8;
-	//Pieza* aux13 = new torre(pos, NEGRO);
-	//listapiezas.agregar(aux13);
-
-	//pos.x = 1;
-	//pos.y = 8;
-	//Pieza* aux14 = new torre(pos, BLANCO);
-	//listapiezas.agregar(aux14);
-
-	//pos.x = 8;
-	//Pieza* aux15 = new torre(pos, BLANCO);
-	//listapiezas.agregar(aux15);
-
-
-	//listapiezas.inicializarturnos();
+	
 }
 
 void mundo::dibuja() {
 	gluLookAt(x, y, z,  
 		4.0, 4.0, 0.0,      
 		0.0, 1.0, 0.0);    
-
-	//tablero1.Dibuja();
-	//marco1.dibuja();
-
-	//listapiezas.dibuja();
-	//if (listapiezas.getturno() == 0)
-		//dibujatblancas();
-	//if(listapiezas.getturno() == 1)
-		//dibujatnegras();
 
 	glDisable(GL_LIGHTING);
 	glColor3ub(253, 253, 180); //amarillo
@@ -181,17 +86,6 @@ void mundo::mueve()
 	cout << "Escribe R o D segun lo que deseas hacer. Pulsa cualquier otra letra para salir." << endl;
 	cin >> respuesta;
 	fflush;
-	/*cout << "Dime la columna y fila del lugar donde quieres mover la pieza" << endl;
-	cin >> posfin.x>>posfin.y;
-	fflush;*/
-	
-	/*if (listapiezas.comprobar(posini) != NULL) {
-		p = listapiezas.comprobar(posini);
-		p->avisoincorrecto(posfin, listapiezas);
-		p->movimientos(posfin, listapiezas);
-
-		listapiezas.cambiarturnos();
-	}*/
 
 	if (respuesta == 'R' || respuesta == 'r')
 	{
@@ -212,7 +106,7 @@ void mundo::mueve()
 
 void mundo::donar()
 {
-	cout << "¡Gracias por participar en este proyecto!" << endl;
+	cout << "Â¡Gracias por participar en este proyecto!" << endl;
 	while (opcion == 0 || opcion > 8)
 	{
 
@@ -223,7 +117,7 @@ void mundo::donar()
 		switch (opcion)
 		{
 		case 0: {
-			cout << "0 no corresponde a ningún material" << endl;
+			cout << "0 no corresponde a ningÃºn material" << endl;
 			break;
 		}
 		case 1: {
@@ -460,7 +354,7 @@ void mundo::donar()
 
 void mundo::retirar()
 {
-	cout << "¡Esperamos que el material te sea util!" << endl;
+	cout << "Â¡Esperamos que el material te sea util!" << endl;
 	cout << "A continuacion, te mostramos el stock disponible." << "\n" << "--------------------------------------------------------------------------------------------------------" << endl;
 
 	ifstream archivo36("stock.txt");
@@ -470,20 +364,8 @@ void mundo::retirar()
 		}
 	archivo36.close();
 	cout << contenido << "--------------------------------------------------------------------------------------------------------" << endl;
-	cout << "Describe el componente que necesitas. Si no hay disponibilidad de lo que estás buscando, escribe salir para cerrar del programa." << endl;
+	cout << "Describe el componente que necesitas. Si no hay disponibilidad de lo que estÃ¡s buscando, escribe salir para cerrar del programa." << endl;
 	cin >> eleccion;
-
-	/*if (eleccion == 's')
-	{
-		exit(0);
-	}
-	else
-	{
-		cout << "MATERIAL DISPONIBLE PARA RETIRAR" << endl;
-		cout << "Por favor, RETIRA el material de su cajon correspondiente en el armario. Solicita ayuda del personal si es necesario." << endl;
-		cout << "------------RETIRADA DE MATERIAL COMPLETADA. GRACIAS POR ALARGAR LA VIDA UTIL DE ESTE MATERIAL.-------------------------" << endl;
-		
-	}*/
 	
 }
 
@@ -535,101 +417,6 @@ void mundo::dibujaretirar()
 
 }
 
-void mundo::dibujasesion()
-{
-	gluLookAt(x, y, z,
-		4.0, 4.0, 0.0,
-		0.0, 1.0, 0.0);
-	glDisable(GL_LIGHTING);
-	glColor3ub(255, 255, 255); //blanco
-	glBegin(GL_POLYGON);
-	glVertex3f(-2.5, 4, 0);
-	glVertex3f(-2.5, 6, 0);
-	glVertex3f(9, 6, 0);
-	glVertex3f(9, 4, 0);
-	glEnd();
-
-	ETSIDI::setTextColor(0, 255, 0);
-	ETSIDI::setFont("fuentes/Bitwise.ttf", 30);
-	ETSIDI::printxy("INICIA SESION O REGISTRATE", -2, 5);
-	ETSIDI::setTextColor(255, 255, 255);
-	ETSIDI::printxy("SecondLife ETSIDI", -2, 8);
-}
-
-void mundo::dibujatblancas()
-{
-	gluLookAt(0, 7.5, 30,
-		0.0, 7.5, 0.0,
-		0.0, 1.0, 0.0);
-	ETSIDI::setTextColor(255, 255, 255);
-	ETSIDI::setFont("fuentes/Bitwise.ttf", 20);
-	ETSIDI::printxy("TURNO DE ANGELES", -8.5, 25);
-	ETSIDI::setTextColor(255, 255, 255);
-	ETSIDI::setFont("fuentes/Bitwise.ttf", 20);
-	ETSIDI::printxy(" 1 ", -10, 1);
-	ETSIDI::setTextColor(255, 255, 255);
-	ETSIDI::setFont("fuentes/Bitwise.ttf", 20);
-	ETSIDI::printxy(" 2 ", -10, 4.5);
-	ETSIDI::setTextColor(255, 255, 255);
-	ETSIDI::setFont("fuentes/Bitwise.ttf", 20);
-	ETSIDI::printxy("   1   2   3   4   5   6    7   8", -8, -2);
-	ETSIDI::setTextColor(255, 255, 255);
-	ETSIDI::setFont("fuentes/Bitwise.ttf", 20);
-	ETSIDI::printxy(" 3 ", -10, 7.5);
-	ETSIDI::setTextColor(255, 255, 255);
-	ETSIDI::setFont("fuentes/Bitwise.ttf", 20);
-	ETSIDI::printxy(" 4  ", -10, 10.5);
-	ETSIDI::setTextColor(255, 255, 255);
-	ETSIDI::setFont("fuentes/Bitwise.ttf", 20);
-	ETSIDI::printxy(" 5 ", -10, 13.5);
-	ETSIDI::setTextColor(255, 255, 255);
-	ETSIDI::setFont("fuentes/Bitwise.ttf", 20);
-	ETSIDI::printxy(" 6  ", -10, 16.5);
-	ETSIDI::setTextColor(255, 255, 255);
-	ETSIDI::setFont("fuentes/Bitwise.ttf", 20);
-	ETSIDI::printxy(" 7 ", -10, 19.5);
-	ETSIDI::setTextColor(255, 255, 255);
-	ETSIDI::setFont("fuentes/Bitwise.ttf", 20);
-	ETSIDI::printxy(" 8", -10, 22.5);
-}
-
-void mundo::dibujatnegras()
-{
-	gluLookAt(0, 7.5, 30,
-		0.0, 7.5, 0.0,
-		0.0, 1.0, 0.0);
-	ETSIDI::setTextColor(255, 0, 0);
-	ETSIDI::setFont("fuentes/Bitwise.ttf", 20);
-	ETSIDI::printxy("TURNO DE DEMONIOS", -8.5, 25);
-	ETSIDI::setTextColor(255, 255, 255);
-	ETSIDI::setFont("fuentes/Bitwise.ttf", 20);
-	ETSIDI::printxy(" 1 ", -10, 1);
-	ETSIDI::setTextColor(255, 255, 255);
-	ETSIDI::setFont("fuentes/Bitwise.ttf", 20);
-	ETSIDI::printxy(" 2 ", -10, 4.5);
-	ETSIDI::setTextColor(255, 255, 255);
-	ETSIDI::setFont("fuentes/Bitwise.ttf", 20);
-	ETSIDI::printxy("   1   2   3   4   5   6    7   8", -8, -2);
-	ETSIDI::setTextColor(255, 255, 255);
-	ETSIDI::setFont("fuentes/Bitwise.ttf", 20);
-	ETSIDI::printxy(" 3 ", -10, 7.5);
-	ETSIDI::setTextColor(255, 255, 255);
-	ETSIDI::setFont("fuentes/Bitwise.ttf", 20);
-	ETSIDI::printxy(" 4  ", -10, 10.5);
-	ETSIDI::setTextColor(255, 255, 255);
-	ETSIDI::setFont("fuentes/Bitwise.ttf", 20);
-	ETSIDI::printxy(" 5 ", -10, 13.5);
-	ETSIDI::setTextColor(255, 255, 255);
-	ETSIDI::setFont("fuentes/Bitwise.ttf", 20);
-	ETSIDI::printxy(" 6  ", -10, 16.5);
-	ETSIDI::setTextColor(255, 255, 255);
-	ETSIDI::setFont("fuentes/Bitwise.ttf", 20);
-	ETSIDI::printxy(" 7 ", -10, 19.5);
-	ETSIDI::setTextColor(255, 255, 255);
-	ETSIDI::setFont("fuentes/Bitwise.ttf", 20);
-	ETSIDI::printxy(" 8", -10, 22.5);
-}
-
 int mundo::iniciarsesion()
 {
 	
@@ -641,9 +428,9 @@ int mundo::iniciarsesion()
 		cout << "Bienvenido de nuevo. Introduzca su correo electronico de la UPM:" << endl;
 		cin >> correo;
 
-		cout << "Escribe la contraseña" << endl;
+		cout << "Escribe la contraseÃ±a" << endl;
 		cin >> passw;
-		//comprobar correo y contraseña
+		//comprobar correo y contraseÃ±a
 
 		ifstream fichero("datos.txt");
 		if (!fichero)
@@ -671,11 +458,11 @@ int mundo::iniciarsesion()
 
 				fin = 1; /* Si el correo de alguna linea es igual al ingresado por el usuario cambiamos el valor de la variable fin para que se
 
-			termine el bucle, sin importar que la contraseña sea incorrecta */
+			termine el bucle, sin importar que la contraseÃ±a sea incorrecta */
 
 			}
 
-			contador = 0;/* Regresamos el valor del contador a 0 por si en la línea previa no estuviesen el nombre y la contraseña de nuestro usuario, así
+			contador = 0;/* Regresamos el valor del contador a 0 por si en la lÃ­nea previa no estuviesen el nombre y la contraseÃ±a de nuestro usuario, asÃ­
 
 			continuamos en el bucle buscando hasta que se encuentre o se acaben los datos en el archivo de texto.*/
 
@@ -717,7 +504,7 @@ int mundo::iniciarsesion()
 
 		}
 
-		cout << "Escribe una contraseña." << endl;
+		cout << "Escribe una contraseÃ±a." << endl;
 		cin >> passw;
 		cout << "--------------REGISTRO COMPLETADO CORRECTAMENTE--------------" << endl;
 
