@@ -15,7 +15,6 @@ mundo::mundo()
 	x = 4.0;
 	y = 4.0;
 	z = 15.0;
-	posini.x, posini.y, posfin.x, posfin.y = 0;
 }
 
 mundo::~mundo()
@@ -30,7 +29,6 @@ char mundo::getrespuesta()
 
 void mundo::inicializa()
 {
-	
 	
 }
 
@@ -84,251 +82,158 @@ void mundo::mueve()
 {
 	
 	cout << "Escribe R o D segun lo que deseas hacer. Pulsa cualquier otra letra para salir." << endl;
-	cin >> respuesta;
+	cin >> respuesta; cout << "\n";
 	fflush;
-
+	
 	if (respuesta == 'R' || respuesta == 'r')
 	{
-		cout << "Has elegido retirar material" << endl;
-	
+		cout << "Has elegido retirar material" <<"\n"<< endl;
 	}
 	else if (respuesta == 'D' || respuesta == 'd')
 	{
-		cout << "Has elegido donar material" << endl;
-
+		cout << "Has elegido donar material" << "\n" << endl;
 	}
 	else
 	{
 		cout << "Has elegido salir" << endl;
-		exit(0);
 	}
 }
-
-void mundo::donar()
+int mundo::iniciarsesion()
 {
-	cout << "Â¡Gracias por participar en este proyecto!" << endl;
+	cout << "Es necesario iniciar sesion en el sistema. Escriba S si ya dispone de una cuenta o N si es necesario registrarse" << endl;  cin >> sesion; cout << "\n"<<endl;
+	
+	if (sesion == 'S' || sesion == 's')
+	{
+		cout << "Bienvenido de nuevo. Introduzca su correo electronico de la UPM:" << endl; cin >> correo;
+		cout << "Escribe la contraseña" << endl; cin >> passw;
+		correcto=fich.comprobarusuario(correo, passw);//comprobar correo y contraseña
+	}
+
+	else if (sesion == 'N' || sesion == 'n')
+	{
+		while (correcto == 0)
+		{
+			cout << "Es necesario registrarse para proceder con la accion." << endl; cout << "Para registrarte escribe tu correo electronico UPM." << endl; cin >> correo;
+			if (correo.find(dominio) != string::npos) //comprobar correo
+			{
+				cout << "Bien. Perteneces a la UPM" << endl;
+				correcto = 1;
+			}
+			else
+			{
+				cout << "ERROR" << endl;
+			}
+		}
+
+		cout << "Escribe una contraseña." << endl; cin >> passw; cout << "\n";
+		cout << "--------------REGISTRO COMPLETADO CORRECTAMENTE--------------" << endl;
+		usuario* us = new usuario(correo, passw);
+		listausuarios.agregar(us);
+		fich.registrarusuario(us);
+	}
+	return correcto;
+}
+
+int mundo::donar()
+{
+	cout << "¡Gracias por participar en este proyecto!" << endl;
 	while (opcion == 0 || opcion > 8)
 	{
 
 		cout << "A continuacion, te mostramos algunos elementos que puedes donar." << "\n" << "Elige el numero correspondiente y si el elemento que deseas donar no se encuentra en la lista, elige la opcion OTRO." << endl;
-		cout << "1-RESISTENCIAS" << "\n" << "2-CONDENSADORES" << "\n" << "3-LEDS" << "\n" << "4-PROTOBOARDS" << "\n" << "5-CABLES" << "\n" << "6-PLACAS" << "\n" << "7-OTRO" << "\n" <<"8-SALIR" << endl;
+		cout << "1-RESISTENCIAS" << "\n" << "2-CONDENSADORES" << "\n" << "3-LEDS" << "\n" << "4-PROTOBOARDS" << "\n" << "5-CABLES" << "\n" << "6-PLACAS" << "\n" << "7-OTRO" << "\n" << "8-SALIR" << endl;
 		cin >> opcion;
 
 		switch (opcion)
 		{
 		case 0: {
-			cout << "0 no corresponde a ningÃºn material" << endl;
+			cout << "0 no corresponde a ningún material" << endl;
 			break;
 		}
 		case 1: {
-			cout << "Escribe el valor de la resistencia:" << endl;
-			cin >> resistencia;
-			ifstream archivo("stock.txt");
-			while (getline(archivo, linea))
-			{
-				contenido = contenido + linea + "\n";
-			}
-			archivo.close();
+			cout << "Cuantos resistores del mismo valor deseas donar:" << endl; cin >> cant;
+			cout << "Escribe su valor:" << endl; cin >> resistencia;
 
-			ofstream archivo1("stock.txt");
-			archivo1 << contenido << "Resistencia " << resistencia;
-			ifstream archivo2("registro.txt");
-			while (getline(archivo2, linea))
-			{
-				contenido2 = contenido2 + linea + "\n";
-			}
-			archivo2.close();
-
-			ofstream archivo3("registro.txt");
-			archivo3 << contenido2 << correo <<" ha donado una resistencia de "<< resistencia;
+			componente* aux = new Resistencia("Resistencia", resistencia, cant);
+			listacomponentes.agregar(aux);
+			fich.registrarstock(aux, fich.sumarcantidades(cant, "Resistencia", resistencia, "-"));
+			fich.registraroperacion(aux, correo, cant);
 			break;
 		}
 		case 2: {
-			cout << "Escribe el valor del condensador:" << endl;
-			cin >> condensador;
-			ifstream archivo4("stock.txt");
-			while (getline(archivo4, linea))
-			{
-				contenido = contenido + linea + "\n";
-			}
-			archivo4.close();
+			cout << "Cuantos condensadores del mismo valor deseas donar:" << endl; cin >> cant;
+			cout << "Escribe su valor:" << endl; cin >> condensador;
 
-			ofstream archivo5("stock.txt");
-			archivo5 << contenido << "Condensador " << condensador;
-			ifstream archivo6("registro.txt");
-			while (getline(archivo6, linea))
-			{
-				contenido2 = contenido2 + linea + "\n";
-			}
-			archivo6.close();
+			componente* aux = new Condensador("Condensador", condensador, cant);
+			listacomponentes.agregar(aux);
 
-			ofstream archivo7("registro.txt");
-			archivo7 << contenido2 << correo << " ha donado un condensador de " << condensador;
+			fich.registrarstock(aux, fich.sumarcantidades(cant, "Condensador", condensador, "-"));
+			fich.registraroperacion(aux, correo, cant);
 			break;
 		}
 		case 3: {
-			cout << "Escribe el color del LED" << endl;
-			cin >> color;
-			ifstream archivo8("stock.txt");
-			while (getline(archivo8, linea))
-			{
-				contenido = contenido + linea + "\n";
-			}
-			archivo8.close();
+			cout << "Cuantos LEDs del mismo color deseas donar:" << endl; cin >> cant;
+			cout << "Escribe el color del LED" << endl;	cin >> color;
 
-			ofstream archivo9("stock.txt");
-			archivo9 << contenido << "LED " << color;
-			ifstream archivo10("registro.txt");
-			while (getline(archivo10, linea))
-			{
-				contenido2 = contenido2 + linea + "\n";
-			}
-			archivo10.close();
+			componente* aux = new Led("Led", color, cant);
+			listacomponentes.agregar(aux);
 
-			ofstream archivo11("registro.txt");
-			archivo11 << contenido2 << correo << " ha donado un LED de color " << color;
+			fich.registrarstock(aux, fich.sumarcantidades(cant, "Led", color, "-"));
+			fich.registraroperacion(aux, correo, cant);
 			break;
 		}
 		case 4: {
-			ifstream archivo12("stock.txt");
-			while (getline(archivo12, linea))
-			{
-				contenido = contenido + linea + "\n";
-			}
-			archivo12.close();
+			cout << "Cuantas protoboards iguales deseas donar:" << endl; cin >> cant;
+			cout << "Escribe la dimension de la protoboard (grande, alargada, pequeña...)" << endl; cin >> tamano;
 
-			ofstream archivo13("stock.txt");
-			archivo13 << contenido << "Protoboard";
-			ifstream archivo14("registro.txt");
-			while (getline(archivo14, linea))
-			{
-				contenido2 = contenido2 + linea + "\n";
-			}
-			archivo14.close();
-
-			ofstream archivo15("registro.txt");
-			archivo15 << contenido2 << correo << " ha donado una protoboard";
+			componente* aux = new Protoboard("Protoboard", tamano, cant);
+			listacomponentes.agregar(aux);
+			fich.registrarstock(aux, fich.sumarcantidades(cant, "Protoboard", tamano, "-"));
+			fich.registraroperacion(aux, correo, cant);
 			break;
 		}
 		case 5: {
-			cout << "Escribe el numero de cables hembra-macho que deseas donar:" << endl;
-			cin >> hembramacho;
-			cout << "Escribe el numero de cables macho-macho que deseas donar:" << endl;
-			cin >> machomacho;
-			cout << "Escribe el numero de cables hembra-hembra que deseas donar:" << endl;
-			cin >> hembrahembra;
-
-			if (hembramacho != 0)
-			{
-				ifstream archivo16("stock.txt");
-				while (getline(archivo16, linea))
-				{
-					contenido = contenido + linea + "\n";
-				}
-				archivo16.close();
-
-				ofstream archivo17("stock.txt");
-				archivo17 << contenido << hembramacho<<" cables hembra-macho";
-				ifstream archivo18("registro.txt");
-				while (getline(archivo18, linea))
-				{
-					contenido2 = contenido2 + linea + "\n";
-				}
-				archivo18.close();
-
-				ofstream archivo19("registro.txt");
-				archivo19 << contenido2 << correo << " ha donado "<<hembramacho<<" cables hembra-macho";
+			cout << "Escribe el numero de cables hembra-macho que deseas donar:" << endl; cin >> cant;
+			if (cant != 0) {
+				componente* aux = new Cable("Cable", "hembra-macho", cant); listacomponentes.agregar(aux); fich.registrarstock(aux, fich.sumarcantidades(cant, "Cable", "hembra-macho", "-")); fich.registraroperacion(aux, correo, cant);
 			}
-			if (machomacho != 0)
-			{
-				ifstream archivo20("stock.txt");
-				while (getline(archivo20, linea))
-				{
-					conteniddo = conteniddo + linea + "\n";
-				}
-				archivo20.close();
-
-				ofstream archivo21("stock.txt");
-				archivo21 << conteniddo << machomacho<<" cables macho-macho";
-				ifstream archivo22("registro.txt");
-				while (getline(archivo22, linea))
-				{
-					contenido3 = contenido3 + linea + "\n";
-				}
-				archivo22.close();
-
-				ofstream archivo23("registro.txt");
-				archivo23 << contenido3 << correo << " ha donado " << machomacho<<" cables macho-macho";
+			cout << "Escribe el numero de cables macho-macho que deseas donar:" << endl; cin >> cant;
+			if (cant != 0) {
+				componente* aux1 = new Cable("Cable", "macho-macho", cant); listacomponentes.agregar(aux1); fich.registrarstock(aux1, fich.sumarcantidades(cant, "Cable", "macho-macho", "-")); fich.registraroperacion(aux1, correo, cant);
 			}
-			if (hembrahembra != 0)
-			{
-				ifstream archivo24("stock.txt");
-				while (getline(archivo24, linea))
-				{
-					contenidddo = contenidddo + linea + "\n";
-				}
-				archivo24.close();
-
-				ofstream archivo25("stock.txt");
-				archivo25 << contenidddo << hembrahembra<< " cables hembra-hembra";
-				ifstream archivo26("registro.txt");
-				while (getline(archivo26, linea))
-				{
-					contenido4 = contenido4 + linea + "\n";
-				}
-				archivo26.close();
-
-				ofstream archivo27("registro.txt");
-				archivo27 << contenido4 << correo << " ha donado "<<hembrahembra<<" cables hembra-hembra";
+			cout << "Escribe el numero de cables hembra-hembra que deseas donar:" << endl; cin >> cant;
+			if (cant != 0) {
+				componente* aux2 = new Cable("Cable", "hembra-hembra", cant); listacomponentes.agregar(aux2); fich.registrarstock(aux2, fich.sumarcantidades(cant, "Cable", "hembra-hembra", "-")); fich.registraroperacion(aux2, correo,cant);
 			}
-			break;
 		}
+		
+
 		case 6:
 		{
-			cout << "Escribe el nombre de la placa (por ejemplo, arduinouno, arduinomega, stm32...):" << endl;
-			cin >> placa;
-			ifstream archivo28("stock.txt");
-			while (getline(archivo28, linea))
-			{
-				contenido = contenido + linea + "\n";
-			}
-			archivo28.close();
+			cout << "Escribe cuantas placas iguales deseas donar:" << endl; cin >> cant;
+			cout << "Escribe el nombre de la placa (por ejemplo, Arduino, STM32...):" << endl; cin >> placa;
+			cout << "Escribe el modelo de la placa (por ejemplo, UNO, MEGA, F407, F411...), si no tiene introduce -:" << endl;	cin >> model;
 
-			ofstream archivo29("stock.txt");
-			archivo29 << contenido << "Placa " << placa;
-			ifstream archivo30("registro.txt");
-			while (getline(archivo30, linea))
-			{
-				contenido2 = contenido2 + linea + "\n";
-			}
-			archivo30.close();
+				componente* aux1 = new Placa("Placa", placa, cant, model);
+				fich.registrarstock(aux1, fich.sumarcantidades(cant, "Placa", placa, model));
+				fich.registraroperacion(aux1, correo, cant);
+				
 
-			ofstream archivo31("registro.txt");
-			archivo31 << contenido2 << correo << " ha donado una placa " << placa;
 			break;
 		}
 		case 7:
 		{
-			cout << "Escribe una breve descripcion del material. Maximo 3 palabras. Por ejemplo, sensor luz arduino o servomotor:" << endl;
-			cin >> nuevo1>>nuevo2>>nuevo3;
-			ifstream archivo32("stock.txt");
-			while (getline(archivo32, linea))
-			{
-				contenido = contenido + linea + "\n";
-			}
-			archivo32.close();
+			cout << "Escribe una breve descripcion del material. Maximo 3 palabras. Por ejemplo, sensor luz arduino o servomotor. Si despues del nombre, no encuentras palabras para describirlo, introduce -." << endl;
+			cout << "1: " << endl; cin >> nuevo1;
+			cout << "2: " << endl; cin >> nuevo2;
+			cout << "3: " << endl; cin >> nuevo3;
+			cout << "Escribe el numero de unidades que deseas donar:" << endl;
+			cin >> cant;
 
-			ofstream archivo33("stock.txt");
-			archivo33 << contenido << nuevo1<<" "<<nuevo2<<" "<<nuevo3;
-			ifstream archivo34("registro.txt");
-			while (getline(archivo34, linea))
-			{
-				contenido2 = contenido2 + linea + "\n";
-			}
-			archivo34.close();
-
-			ofstream archivo35("registro.txt");
-			archivo35 << contenido2 << correo << " ha donado "<< nuevo1<<" "<<nuevo2<<" "<<nuevo3;
+			componente* aux = new Otro(nuevo1, nuevo2,cant, nuevo3);
+			listacomponentes.agregar(aux);
+			fich.registrarstock(aux,fich.sumarcantidades(cant, nuevo1, nuevo2, nuevo3));
+			fich.registraroperacion(aux, correo,cant);
 			break;
 		}
 		case 8:
@@ -341,33 +246,49 @@ void mundo::donar()
 			cout << "Esta opcion no corresponde a ningun material" << endl;
 			break;
 		}
-		}
-		if (opcion != 0 && opcion < 8)
-		{
-			cout << "Por favor, introduce el material en su cajon correspondiente dentro del armario. Solicita ayuda del personal si es necesario." << endl;
-			cout << "------------DONACION COMPLETADA. MUCHAS GRACIAS POR TU AYUDA.---------------------------------------------------" << endl;
-			
+				}
+				if (opcion != 0 && opcion < 8)
+				{
+					cout << "Por favor, introduce el material en su cajon correspondiente dentro del armario. Solicita ayuda del personal si es necesario." << endl;
+					cout << "------------DONACION COMPLETADA. MUCHAS GRACIAS POR TU AYUDA.---------------------------------------------------" <<"\n" << endl;
 
-		}
-	}
-}
+				}
 
-void mundo::retirar()
-{
-	cout << "Â¡Esperamos que el material te sea util!" << endl;
-	cout << "A continuacion, te mostramos el stock disponible." << "\n" << "--------------------------------------------------------------------------------------------------------" << endl;
-
-	ifstream archivo36("stock.txt");
-		while (getline(archivo36, linea))
-		{
-			contenido = contenido + linea + "\n";
+			}
+			contenido.clear();
+			cout << "A continuacion, se muestran las siguientes opciones disponibles, elige la opcion que deseas hacer:" << "\n" << "1:Realizar otra operacion." << "\n" << "2:Salir del programa" << endl; cin >> resp2; return resp2;
 		}
-	archivo36.close();
-	cout << contenido << "--------------------------------------------------------------------------------------------------------" << endl;
-	cout << "Describe el componente que necesitas. Si no hay disponibilidad de lo que estÃ¡s buscando, escribe salir para cerrar del programa." << endl;
-	cin >> eleccion;
 	
-}
+
+		
+ int mundo::retirar()
+
+			  {
+				  cout << "¡Esperamos que el material te sea util!" << endl;
+				  cout << "A continuacion, te mostramos el stock disponible." << "\n" << "--------------------------------------------------------------------------------------------------------" << endl;
+
+				  ifstream archivo36("stock.txt");
+				  while (getline(archivo36, linea))
+				  {
+					  contenido = contenido + linea + "\n";
+				  }
+				  archivo36.close();
+				  cout << contenido << "--------------------------------------------------------------------------------------------------------" << endl;
+				  cout << "Describe el componente que necesitas segun se ha descrito en el stock mostrado incluyendo mayusculas y caracteres especiales. Utiliza 3 palabras o caracteres para ello. Si no hay disponibilidad de lo que estas buscando, escribe salir para cerrar la sesion." << endl;
+				  cout << "1: "; cin >> eleccion1; 
+				  if (eleccion1 == "salir"||eleccion1=="SALIR")
+				  {
+					  exit(0);
+				  }
+				  else
+				  {
+					  cout << "2: "; cin >> eleccion2; cout << "3: "; cin >> eleccion3; cout << "Escribe la cantidad que deseas retirar:"; cin >> cant;
+					  fich.registrarretirada(fich.restarcantidades(cant, eleccion1, eleccion2, eleccion3), eleccion1, eleccion2, eleccion3, correo, cant);
+				  }
+				  contenido.clear();
+				  cout <<"\n"<< "A continuacion, se muestran las siguientes opciones disponibles, elige la opcion que deseas hacer:" << "\n" << "1:Realizar otra operacion." << "\n" << "2:Salir del programa" << endl; cin >> resp2; return resp2;
+			  }
+		
 
 
 void mundo::dibujadonar()
@@ -417,107 +338,25 @@ void mundo::dibujaretirar()
 
 }
 
-int mundo::iniciarsesion()
+void mundo::dibujasesion()
 {
-	
-	cout << "Es necesario iniciar sesion en el sistema. Escriba S si ya dispone de una cuenta o N si es necesario registrarse" << endl;
-	cin >> sesion;
+	gluLookAt(x, y, z,
+		4.0, 4.0, 0.0,
+		0.0, 1.0, 0.0);
+	glDisable(GL_LIGHTING);
+	glColor3ub(255, 255, 255); //blanco
+	glBegin(GL_POLYGON);
+	glVertex3f(-2.5, 4, 0);
+	glVertex3f(-2.5, 6, 0);
+	glVertex3f(9, 6, 0);
+	glVertex3f(9, 4, 0);
+	glEnd();
 
-	if (sesion == 'S' || sesion == 's')
-	{
-		cout << "Bienvenido de nuevo. Introduzca su correo electronico de la UPM:" << endl;
-		cin >> correo;
-
-		cout << "Escribe la contraseÃ±a" << endl;
-		cin >> passw;
-		//comprobar correo y contraseÃ±a
-
-		ifstream fichero("datos.txt");
-		if (!fichero)
-		{
-			cout << "Error al crear el archivo datos.txt\n";
-			exit(EXIT_FAILURE);
-		}
-		while (getline(fichero, linea) && fin == 0) { // Este bucle se repetira mientras la funcion getline pueda obtener lineas nuevas del archivo txt y la variable fin valga 0
-
-			while ((pos = linea.find(",")) != std::string::npos) { /* Si el valor devuelto por la funcion find es distinto a la constante npos esto
-
-			significa que si se ha encontrado lo que se busca dentro de la variable linea */
-
-				dato = linea.substr(0, pos); // Separamos los caracteres desde la posicion 0 hasta una posicion previa al caracter separador que es la coma
-
-				casilla[contador] = dato; // Guardamos el dato anterior dentro de la casilla 0 o la 1 dependiendo del valor de contador
-
-				linea.erase(0, pos + 1); // Eliminamos los caracteres desde la posicion 0 hasta la posicion donde se encuentra el caracter separador coma,incluida la coma
-
-				contador++; // Aumentamos el valor del contador
-
-			}
-
-			if (casilla[0].find(correo, 0) != string::npos) {
-
-				fin = 1; /* Si el correo de alguna linea es igual al ingresado por el usuario cambiamos el valor de la variable fin para que se
-
-			termine el bucle, sin importar que la contraseÃ±a sea incorrecta */
-
-			}
-
-			contador = 0;/* Regresamos el valor del contador a 0 por si en la lÃ­nea previa no estuviesen el nombre y la contraseÃ±a de nuestro usuario, asÃ­
-
-			continuamos en el bucle buscando hasta que se encuentre o se acaben los datos en el archivo de texto.*/
-
-		}
-
-		if (correo == casilla[0] && passw == casilla[1]) {
-
-			cout << "Usuario correcto." << endl;
-			correcto = 1;
-
-		}
-
-		else {
-
-			cout << "Los datos ingresados son incorrectos o no esta registrado en el sistema." << endl;
-			correcto = 0;
-
-		}
-		}
-			
-		
-	
-	else if (sesion == 'N' || sesion == 'n')
-	{
-		while (correcto == 0)
-		{
-			cout << "Es necesario registrarse para proceder con la accion." << endl;
-			cout << "Para registrarte escribe tu correo electronico UPM." << endl;
-			cin >> correo;
-			if (correo.find(dominio) != string::npos) //comprobar correo
-			{
-				cout << "Bien. Perteneces a la UPM" << endl;
-				correcto = 1;
-			}
-			else
-			{ 
-				cout << "ERROR" << endl;
-			}
-
-		}
-
-		cout << "Escribe una contraseÃ±a." << endl;
-		cin >> passw;
-		cout << "--------------REGISTRO COMPLETADO CORRECTAMENTE--------------" << endl;
-
-		ifstream archivo("datos.txt");
-		while (getline(archivo, linea))
-		{
-			contenido = contenido + linea + "\n";
-		}
-		archivo.close();
-
-		ofstream archivo1("datos.txt");
-		archivo1 << contenido << correo << "," << passw << ",";
-		
-	}
-	return correcto;
+	ETSIDI::setTextColor(0, 255, 0);
+	ETSIDI::setFont("fuentes/Bitwise.ttf", 30);
+	ETSIDI::printxy("INICIA SESION O REGISTRATE", -2, 5);
+	ETSIDI::setTextColor(255, 255, 255);
+	ETSIDI::printxy("SecondLife ETSIDI", -2, 8);
 }
+
+
